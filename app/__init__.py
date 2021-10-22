@@ -9,8 +9,8 @@ load_dotenv()
 
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = int(getenv("MAX_CONTENT_LENGTH"))
 
-app.config["MAX_CONTENT_LENGTH"] = getenv("MAX_CONTENT_LENGTH")
 # 'Error: While importing 'app', an ImportError was raised.' em geral aparece importando coisas que não existem
 
 
@@ -26,9 +26,9 @@ def name_size_error(_):
     return {"message": "Tamanho maior que 1MB!"}, 413
 
 
-@app.errorhandler(415)
-def name_extension_error(_):
-    return {"message": "Outro formato além do permitido!"}, 415
+# @app.errorhandler(415)
+# def name_extension_error(_):
+#     return {"message": "Outro formato além do permitido!"}, 415
 
 
 @app.post('/')

@@ -2,8 +2,8 @@ from flask import jsonify, request
 import os
 from os import getenv
 from dotenv import load_dotenv
-# from uuid import uuid4
 import os.path
+# import pdb
 
 load_dotenv()
 
@@ -11,8 +11,9 @@ max = getenv("MAX_CONTENT_LENGTH")
 directory = getenv("FILES_DIRECTORY")
 allowed = getenv("ALLOWED_EXTENSIONS")
 
+
 def upload(file):
-    # print(os.stat(f"{file.filename}").st_size)
+
     if file.filename.endswith(".jpg"):
         os.chdir(f"{directory}")
         if not os.path.exists("jpg"):
