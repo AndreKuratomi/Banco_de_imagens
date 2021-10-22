@@ -2,8 +2,8 @@ from flask import Flask, request
 import os
 from os import getenv
 from dotenv import load_dotenv
-from kenzie.image import upload, get_files
-# , get_files_by_extension, download_files, download_zip_file
+from kenzie.image import upload, get_files, get_files_by_extension
+# , download_files, download_zip_file
 
 load_dotenv()
 
@@ -31,21 +31,14 @@ def name_size_error(_):
 #     return {"message": "Outro formato além do permitido!"}, 415
 
 
-@app.post('/')
-def func():
-    # file = request.files["file"]
-    # print(file.filename[-3:])
-    return "Hello"
-
-
 @app.get("/files")
 def decorated_get_files():
     return get_files()
 
 
-# @app.get("/files/<extension>")
-# def decorated_get_files_by_extension():
-#     return get_files_by_extension()
+@app.get("/files/<extension>")
+def decorated_get_files_by_extension(extension):
+    return get_files_by_extension(extension)
 
 
 # @app.get("/download/<filename>")
@@ -58,3 +51,9 @@ def decorated_get_files():
 #     return download_zip_file()
 
 
+
+# @app.post('/')
+# def func():
+#     # file = request.files["file"]
+#     # print(file.filename[-3:])
+#     return "Hello"
