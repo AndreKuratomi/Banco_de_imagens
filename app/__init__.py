@@ -2,8 +2,8 @@ from flask import Flask, request
 import os
 from os import getenv
 from dotenv import load_dotenv
-from kenzie.image import upload, get_files, get_files_by_extension
-# , download_files, download_zip_file
+from kenzie.image import upload, get_files, get_files_by_extension, download_files
+# , download_zip_file
 
 load_dotenv()
 
@@ -41,9 +41,9 @@ def decorated_get_files_by_extension(extension):
     return get_files_by_extension(extension)
 
 
-# @app.get("/download/<filename>")
-# def decorated_download_files():
-#     return download_files()
+@app.get("/download/<file_name>")
+def decorated_download_files(file_name):
+    return download_files(file_name)
 
 
 # @app.get("/download-zip/query_params")

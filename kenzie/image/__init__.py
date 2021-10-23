@@ -8,6 +8,7 @@ load_dotenv()
 
 max = getenv("MAX_CONTENT_LENGTH")
 directory = getenv("FILES_DIRECTORY")
+download = getenv("DOWNLOAD_DIRECTORY")
 allowed = getenv("ALLOWED_EXTENSIONS")
 
 
@@ -60,6 +61,9 @@ def upload(file):
 
         return {"message": f"{file.filename} adicionado com sucesso!"}, 201
 
+    arquive = request.files
+    print(arquive)
+
     return {"message": "Outro formato além do permitido!"}, 415
 
 
@@ -84,9 +88,16 @@ def get_files_by_extension(extension):
     return jsonify(extension_list), 200
 
 
-# def download_files():
-    #
-
+def download_files(file_name):
+    arquive = request.files
+    print(arquive)
+    for elem in arquive:
+        print(elem)
+    #     if elem.filename == file_name:
+    #         elem.save(f"{download}/{file_name}")
+    #         return {"message": f"Download de {file_name} feito com sucesso!"}, 200
+    # return {"message": f"{file_name} não encontrado!"}, 404
+    # file_name
 
 
 # def download_zip_file():
