@@ -12,58 +12,55 @@ download = getenv("DOWNLOAD_DIRECTORY")
 allowed = getenv("ALLOWED_EXTENSIONS")
 
 
+def create_directories():
+    allowed_split = allowed.split(', ')
+    if not os.path.exists(f"{directory}"):
+        os.mkdir(f"{directory}")
+    os.chdir(f"{directory}")
+    for elem in allowed_split:
+        if not os.path.exists(f"{elem}"):
+            os.mkdir(f"{elem}")
+    os.chdir("..")
+
+
 def upload(file):
+    os.chdir(f"{directory}")
 
     if file.filename.endswith(".jpg"):
-        os.chdir(f"{directory}")
-
-        if not os.path.exists("jpg"):
-            os.system("mkdir jpg")
-            file.save(f"{directory}/jpg/{file.filename}")
-            return {"message": f"{file.filename} adicionado com sucesso!"}, 201
-
-        jpg_dir = os.listdir("jpg")
+        os.chdir("jpg")
+        jpg_dir = os.listdir("./")
         for files in jpg_dir:
             if file.filename == files:
+                os.chdir("../..")
                 return {"message": "Arquivo já existe no diretório!"}, 409
-        file.save(f"{directory}/jpg/{file.filename}")
+        file.save(f"./{file.filename}")
+        os.chdir("../..")
         return {"message": f"{file.filename} adicionado com sucesso!"}, 201
 
     if file.filename.endswith(".png"):
-        os.chdir(f"{directory}")
-
-        if not os.path.exists("png"):
-            os.system("mkdir png")
-            file.save(f"{directory}/png/{file.filename}")
-            return {"message": f"{file.filename} adicionado com sucesso!"}, 201
-
-        png_dir = os.listdir("png")
+        os.chdir("png")
+        png_dir = os.listdir("./")
         for files in png_dir:
             if file.filename == files:
+                os.chdir("../..")
                 return {"message": "Arquivo já existe no diretório!"}, 409
-        file.save(f"{directory}/png/{file.filename}")
-
+        file.save(f"./{file.filename}")
+        os.chdir("../..")
         return {"message": f"{file.filename} adicionado com sucesso!"}, 201
 
     if file.filename.endswith(".gif"):
-        os.chdir(f"{directory}")
-
-        if not os.path.exists("gif"):
-            os.system("mkdir gif")
-            file.save(f"{directory}/gif/{file.filename}")
-            return {"message": f"{file.filename} adicionado com sucesso!"}, 201
-
-        gif_dir = os.listdir("gif")
+        os.chdir("gif")
+        gif_dir = os.listdir("./")
+        print(gif_dir)
         for files in gif_dir:
             if file.filename == files:
+                os.chdir("../..")
                 return {"message": "Arquivo já existe no diretório!"}, 409
-        file.save(f"{directory}/gif/{file.filename}")
-
+        file.save(f"./{file.filename}")
+        os.chdir("../..")
         return {"message": f"{file.filename} adicionado com sucesso!"}, 201
 
-    arquive = request.files
-    print(arquive)
-
+    os.chdir("..")
     return {"message": "Outro formato além do permitido!"}, 415
 
 
@@ -93,15 +90,8 @@ def download_files(file_name):
     print(arquive)
     for elem in arquive:
         print(elem)
-    #     if elem.filename == file_name:
-    #         elem.save(f"{download}/{file_name}")
-    #         return {"message": f"Download de {file_name} feito com sucesso!"}, 200
-    # return {"message": f"{file_name} não encontrado!"}, 404
-    # file_name
+        if elem.filename == file_name:
+            elem.save(f"{download}/{file_name}")
+            return {"message": f"Download de {file_name} feito com sucesso!"}, 200
+    return {"message": f"{file_name} não encontrado!"}, 404
 
-
-# def download_zip_file():
-#     extension = request.args.get("file_extension")
-#     #  qual o tipo da extensão? string?
-#     ratio = request.args.get("compression-ratio")
-#     # e da taxa de compressão? int?
