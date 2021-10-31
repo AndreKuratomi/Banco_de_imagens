@@ -1,5 +1,6 @@
-from flask import jsonify, request
-import os
+from flask import jsonify, send_file
+from flask.helpers import safe_join
+from werkzeug.datastructures import FileStorage
 from os import getenv
 from dotenv import load_dotenv
 import os.path
@@ -85,13 +86,14 @@ def get_files_by_extension(extension):
     return jsonify(extension_list), 200
 
 
-def download_files(file_name):
-    arquive = request.files
-    print(arquive)
-    for elem in arquive:
-        print(elem)
-        if elem.filename == file_name:
-            elem.save(f"{download}/{file_name}")
-            return {"message": f"Download de {file_name} feito com sucesso!"}, 200
-    return {"message": f"{file_name} não encontrado!"}, 404
+def download_files(file_name: FileStorage):
+    ext = file_name.split('.')[1]
+    print(os.listdir(f"{directory}/{ext}"))
+    if file_name in os.listdir(f"{directory}/{ext}"):
+        path = safe_join(f"{directory}/{ext}", file_name)
+        return send_file(path, as_attachment=True), 200
+    return {"message": f"{file_name} nao encontrado!"}, 404
+
+
+# def download_zip_file():
 
