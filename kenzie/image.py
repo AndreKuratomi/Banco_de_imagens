@@ -88,7 +88,6 @@ def get_files_by_extension(extension):
 
 def download_files(file_name: FileStorage):
     ext = file_name.split('.')[1]
-    print(os.listdir(f"{directory}/{ext}"))
     if file_name in os.listdir(f"{directory}/{ext}"):
         path = safe_join(f"../{directory}/{ext}", f"{file_name}")
         return send_file(path, as_attachment=True)
