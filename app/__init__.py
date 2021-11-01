@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request
 import os
 from os import getenv
 from dotenv import load_dotenv
@@ -49,4 +49,3 @@ def decorated_download_files(file_name):
 # @app.get("/download-zip/query_params")
 # def decorated_download_zip_file():
 #     return download_zip_file()
-
